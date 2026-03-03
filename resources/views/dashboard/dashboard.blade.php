@@ -156,7 +156,7 @@ body {
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
 .theme-toggle {
@@ -565,8 +565,8 @@ tbody tr:last-child td {
             <th>Kode Lapor</th>
             <th>Nama Pelapor</th>
             <th>Kelas</th>
-            <th>Sarana Dilaporkan</th>
-            <th>Lokasi</th>
+            <th>Kategori Sarana</th>
+            <th>Lokasi Spesifik</th>
             <th>Tanggal Lapor</th>
             <th>Status</th>
             <th>Action</th>
@@ -640,6 +640,12 @@ tbody tr:last-child td {
   </div>
 </div>
 
+<!-- Modal Detail Pengaduan -->
+@include('pengaduan.read')
+
+<!-- Modal Delete Pengaduan -->
+@include('pengaduan.delete')
+
 <script>
 // Theme toggle functionality
 const themeButtons = document.querySelectorAll('.theme-toggle-btn');
@@ -648,6 +654,45 @@ themeButtons.forEach(button => {
   button.addEventListener('click', function() {
     themeButtons.forEach(btn => btn.classList.remove('active'));
     this.classList.add('active');
+  });
+});
+
+// View button functionality
+document.querySelectorAll('.action-btn.view').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Sample data - replace dengan data dari database nanti
+    const sampleData = {
+      title: 'Laporan Kerusakan Kursi Kelas',
+      date: '03 Maret 2026',
+      kode: 'LP-2026-001',
+      kelas: 'X RPL 1',
+      sarana: 'Kursi',
+      lokasi: 'Lab RPL 1, Ruang 10',
+      detail: 'Kursi di bagian depan kelas sudah rusak, bagian sandaran belakang patah dan mengganggu kenyamanan siswa saat belajar.',
+      status: 'Menunggu',
+      statusClass: 'pending',
+      file: {
+        name: 'laporan_kerusakan_kursi.pdf',
+        size: '2.45 MB'
+      }
+    };
+    openDetailModal(sampleData);
+  });
+});
+
+
+
+// Delete button functionality
+document.querySelectorAll('.action-btn.delete').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Sample data - replace dengan data dari database nanti
+    const deleteData = {
+      kode: 'LP-2026-001',
+      sarana: 'Kursi',
+      lokasi: 'Lab RPL 1, Ruang 10',
+      action: '#' // Set ke route delete yang sesuai
+    };
+    openDeleteModal(deleteData);
   });
 });
 </script>

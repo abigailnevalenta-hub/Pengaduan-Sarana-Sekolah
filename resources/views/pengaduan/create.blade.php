@@ -141,7 +141,7 @@ body {
 
 .main {
   flex: 1;
-  margin-left: 205px;
+  margin-left: 135px;
   padding: 24px 32px;
 }
 
@@ -169,7 +169,7 @@ body {
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
 /* Theme Toggle */
@@ -242,8 +242,8 @@ body {
 /* ============================= */
 
 .form-section {
-  max-width: 800px;
-  margin: 10px;
+  max-width: 750px;
+  margin: 4px;
   background: #ffffff;
   padding: 36px;
   border-radius: 20px;
@@ -273,7 +273,8 @@ label {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid #e5e5e5;
@@ -284,6 +285,22 @@ textarea {
 textarea {
   resize: vertical;
   min-height: 120px;
+}
+
+select {
+  cursor: pointer;
+  background: #ffffff;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF7C19' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #FF7C19;
 }
 
 .actions {
@@ -313,6 +330,59 @@ textarea {
 
 .btn.submit:hover {
   background: #ff8c33;
+}
+
+/* ============================= */
+/* FILE UPLOAD AREA */
+/* ============================= */
+
+.upload-label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.upload-area {
+  width: 100%;
+  border: 2px dashed #d0d0d0;
+  border-radius: 10px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: #fafafa;
+}
+
+.upload-area:hover {
+  border-color: #FF7C19;
+  background: #fff8f3;
+}
+
+.upload-area.dragover {
+  border-color: #FF7C19;
+  background: #fff3e9;
+}
+
+.upload-icon {
+  font-size: 48px;
+  color: #FF7C19;
+  margin-bottom: 16px;
+}
+
+.upload-text {
+  font-size: 16px;
+  color: #242424;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #919191;
+}
+
+#fileInput {
+  display: none;
 }
 
 /* ============================= */
@@ -371,18 +441,40 @@ textarea {
       <form action="#" method="POST">
         @csrf
 
+        
         <div class="form-group">
-          <div class="field">
-            <label for="kode">Kode Laporan (Optional)</label>
-            <input type="text" id="kode" name="kode" placeholder="Misal: LP-001">
-          </div>
-
-          <div class="field">
-            <label for="sarana">Sarana / Fasilitas</label>
-            <input type="text" id="sarana" name="sarana" placeholder="Misal: Kursi, Lampu, Proyektor">
+          <div class="field full">
+            <label for="kode_laporan">Kode Laporan</label>
+            <input type="text" id="kode_laporan" name="kode_laporan" placeholder="Misal: LP 001">
           </div>
         </div>
 
+
+        <div class="form-group">
+          <div class="field">
+            <label for="kelas">Kelas</label>
+            <input type="text" id="kelas" name="kelas" placeholder="Misal: X RPL 1">
+          </div>
+
+          <div class="field">
+            <label for="sarana">Kategori Sarana</label>
+            <select id="sarana" name="sarana" required>
+              <option value="" disabled selected>Pilih kategori sarana...</option>
+              <option value="Kursi">Kursi</option>
+              <option value="Meja">Meja</option>
+              <option value="Lampu">Lampu</option>
+              <option value="Proyektor">Proyektor</option>
+              <option value="AC">AC</option>
+              <option value="Pintu">Pintu</option>
+              <option value="Jendela">Jendela</option>
+              <option value="Papan Tulis">Papan Tulis</option>
+              <option value="Locker">Locker</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+        </div>
+
+        
         <div class="form-group">
           <div class="field full">
             <label for="lokasi">Lokasi Spesifik</label>
@@ -390,10 +482,24 @@ textarea {
           </div>
         </div>
 
-        <div class="form-group">
+         <div class="form-group">
           <div class="field full">
             <label for="detail">Detail Masalah</label>
             <textarea id="detail" name="detail" placeholder="Jelaskan kondisi kerusakan sarana..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="field full">
+            <label class="upload-label">Upload Foto</label>
+            <div class="upload-area" id="uploadArea">
+              <div class="upload-icon">
+                <i class="fas fa-file"></i>
+              </div>
+              <div class="upload-text">Seret file Anda di sini, atau Telusuri</div>
+              <div class="upload-hint">Format yang didukung: pdf, Max file size 100MB</div>
+            </div>
+            <input type="file" id="fileInput" name="file" accept=".pdf">
           </div>
         </div>
 
@@ -417,6 +523,67 @@ themeButtons.forEach(button => {
     this.classList.add('active');
   });
 });
+
+// File Upload functionality
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+
+// Click to upload
+uploadArea.addEventListener('click', () => {
+  fileInput.click();
+});
+
+// Handle file selection
+fileInput.addEventListener('change', (e) => {
+  const files = e.target.files;
+  if (files.length > 0) {
+    handleFiles(files);
+  }
+});
+
+// Drag and drop
+uploadArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadArea.classList.add('dragover');
+});
+
+uploadArea.addEventListener('dragleave', () => {
+  uploadArea.classList.remove('dragover');
+});
+
+uploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  const files = e.dataTransfer.files;
+  handleFiles(files);
+});
+
+function handleFiles(files) {
+  if (files.length > 0) {
+    const file = files[0];
+    
+    // Validate file type
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      alert('Hanya file PDF yang diperbolehkan!');
+      return;
+    }
+    
+    // Validate file size (100MB = 104857600 bytes)
+    if (file.size > 104857600) {
+      alert('Ukuran file maksimal 100MB!');
+      return;
+    }
+    
+    // Update UI to show filename
+    uploadArea.innerHTML = `
+      <div class="upload-icon">
+        <i class="fas fa-check-circle" style="color: #22c55e;"></i>
+      </div>
+      <div class="upload-text">${file.name}</div>
+      <div class="upload-hint">File berhasil dipilih. Klik untuk mengubah file.</div>
+    `;
+  }
+}
 </script>
 
 </body>

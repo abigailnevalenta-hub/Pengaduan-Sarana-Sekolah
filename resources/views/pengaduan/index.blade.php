@@ -153,7 +153,7 @@ body {
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
 .theme-toggle {
@@ -267,7 +267,7 @@ body {
 .filter-btn {
   display: flex;;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 8px 12px;
   background: #FF7C19;
   border: none;
@@ -293,7 +293,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .header-controls {
@@ -497,14 +497,14 @@ tbody tr:last-child td {
       <table>
         <thead>
           <tr>
-            <th>Kode</th>
-            <th>Pelapor</th>
+           <th>Kode Lapor</th>
+            <th>Nama Pelapor</th>
             <th>Kelas</th>
-            <th>Sarana</th>
-            <th>Lokasi</th>
-            <th>Tanggal</th>
+            <th>Kategori Sarana</th>
+            <th>Lokasi Spesifik</th>
+            <th>Tanggal Lapor</th>
             <th>Status</th>
-            <th>Aksi</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -557,6 +557,15 @@ tbody tr:last-child td {
   </div>
 </div>
 
+<!-- Modal Detail Pengaduan -->
+@include('pengaduan.read')
+
+<!-- Modal Edit Pengaduan -->
+@include('pengaduan.update')
+
+<!-- Modal Delete Pengaduan -->
+@include('pengaduan.delete')
+
 <script>
 // Theme toggle functionality
 const themeButtons = document.querySelectorAll('.theme-toggle-btn');
@@ -565,6 +574,71 @@ themeButtons.forEach(button => {
   button.addEventListener('click', function() {
     themeButtons.forEach(btn => btn.classList.remove('active'));
     this.classList.add('active');
+  });
+});
+
+// View button functionality
+document.querySelectorAll('.action-btn.view').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Get data from table row
+    const row = this.closest('tr');
+    const cells = row.querySelectorAll('td');
+    
+    // Extract data from table cells
+    const sampleData = {
+      title: 'Laporan Pengaduan Sarana',
+      date: cells[5]?.textContent || '03 Maret 2026',
+      kode: cells[0]?.textContent || '-',
+      kelas: cells[2]?.textContent || '-',
+      sarana: cells[3]?.textContent || '-',
+      lokasi: cells[4]?.textContent || '-',
+      detail: 'Masalah sarana sesuai dengan laporan di atas',
+      status: cells[6]?.querySelector('.status-completed')?.textContent || 'Menunggu',
+      statusClass: cells[6]?.querySelector('.status-completed') ? 'completed' : (cells[6]?.querySelector('.status-processing') ? 'processing' : 'pending'),
+      file: {
+        name: 'laporan_pengaduan.pdf',
+        size: '2.45 MB'
+      }
+    };
+    openDetailModal(sampleData);
+  });
+});
+
+// Edit button functionality
+document.querySelectorAll('.action-btn.edit').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Get data from table row
+    const row = this.closest('tr');
+    const cells = row.querySelectorAll('td');
+    
+    // Extract data from table cells
+    const editData = {
+      kode: cells[0]?.textContent || '',
+      kelas: cells[2]?.textContent || '',
+      sarana: cells[3]?.textContent || '',
+      lokasi: cells[4]?.textContent || '',
+      detail: 'Masalah sarana sesuai dengan laporan di atas',
+      action: '#' // Set ke route update yang sesuai
+    };
+    openEditModal(editData);
+  });
+});
+
+// Delete button functionality
+document.querySelectorAll('.action-btn.delete').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Get data from table row
+    const row = this.closest('tr');
+    const cells = row.querySelectorAll('td');
+    
+    // Extract data from table cells
+    const deleteData = {
+      kode: cells[0]?.textContent || '',
+      sarana: cells[3]?.textContent || '',
+      lokasi: cells[4]?.textContent || '',
+      action: '#' // Set ke route delete yang sesuai
+    };
+    openDeleteModal(deleteData);
   });
 });
 </script>

@@ -8,6 +8,9 @@
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
 <style>
 * {
   box-sizing: border-box;
@@ -110,6 +113,10 @@ input:focus {
   background: #fff;
   font-size: 15px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .signup {
@@ -150,7 +157,7 @@ input:focus {
 
   <div class="divider"><span>or</span></div>
 
-  <button class="google-btn">Sign Up with Google</button>
+  <button class="google-btn"><i class="fab fa-google"></i>Sign Up with Google</button>
 
   <div class="signup">
     Have an account? <a href="#">Sign Up</a>
