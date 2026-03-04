@@ -498,58 +498,38 @@ tbody tr:last-child td {
         <thead>
           <tr>
            <th>Kode Lapor</th>
-            <th>Nama Pelapor</th>
+            <th>Pelapor</th>
             <th>Kelas</th>
             <th>Kategori Sarana</th>
             <th>Lokasi Spesifik</th>
-            <th>Tanggal Lapor</th>
             <th>Status</th>
-            <th>Action</th>
+            <th>Action</th> 
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Non quia molestias v</td>
-            <td>abigail.nevalenta48</td>
-            <td>XII IPA 1</td>
-            <td>Vel in sint ipsa ip</td>
-            <td>Numquam e</td>
-            <td>20/02/2026</td>
-            <td><span class="status-pending">Menunggu</span></td>
-            <td class="action-buttons">
-              <button class="action-btn view"><i class="fas fa-eye"></i></button>
-              <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-              <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-            </td>
-          </tr>
-          <tr>
-            <td>LP-002</td>
-            <td>abigail.nevalenta48</td>
-            <td>XII IPA 1</td>
-            <td>Architecto est eius</td>
-            <td>kos</td>
-            <td>19/02/2026</td>
-            <td><span class="status-pending">Menunggu</span></td>
-            <td class="action-buttons">
-              <button class="action-btn view"><i class="fas fa-eye"></i></button>
-              <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-              <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-            </td>
-          </tr>
-          <tr>
-            <td>P-01</td>
-            <td>abigail.nevalenta48</td>
-            <td>XII IPA 1</td>
-            <td>Toilet</td>
-            <td>Sekolah</td>
-            <td>17/02/2026</td>
-            <td><span class="status-pending">Menunggu</span></td>
-            <td class="action-buttons">
-              <button class="action-btn view"><i class="fas fa-eye"></i></button>
-              <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-              <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-            </td>
-          </tr>
+          @foreach ($nevas as $neva)
+             <tr>
+              <td>{{ $neva->kode }}</td>
+              <td>{{ $neva->pelapor }}</td>
+              <td>{{ $neva->kelas }}</td>
+              <td>{{ $neva->sarana }}</td>
+              <td>{{ $neva->lokasi }}</td>
+              <td>{{ $neva->status }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="action-btn view" title="Lihat Detail">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="action-btn edit" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="action-btn delete" title="Hapus">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr> 
+          @endforeach
         </tbody>
       </table>
     </section>

@@ -644,7 +644,9 @@ tbody tr:last-child td {
 @include('pengaduan.read')
 
 <!-- Modal Delete Pengaduan -->
-@include('pengaduan.delete')
+@isset($pengaduan)
+    @include('pengaduan.delete')
+@endisset
 
 <script>
 // Theme toggle functionality

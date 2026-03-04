@@ -438,14 +438,14 @@ select:focus {
 
     <!-- Form -->
     <section class="form-section">
-      <form action="#" method="POST">
+      <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         
         <div class="form-group">
           <div class="field full">
             <label for="kode_laporan">Kode Laporan</label>
-            <input type="text" id="kode_laporan" name="kode_laporan" placeholder="Misal: LP 001">
+            <input type="text" id="kode_laporan" name="kode" placeholder="Misal: LP 001">
           </div>
         </div>
 
@@ -478,14 +478,14 @@ select:focus {
         <div class="form-group">
           <div class="field full">
             <label for="lokasi">Lokasi Spesifik</label>
-            <input type="text" id="lokasi" name="lokasi" placeholder="Misal: Lab RPL 1, Ruang 10">
+            <input type="text" id="lokasi" name="lokasi" value="lokasi" placeholder="Misal: Lab RPL 1, Ruang 10">
           </div>
         </div>
 
          <div class="form-group">
           <div class="field full">
             <label for="detail">Detail Masalah</label>
-            <textarea id="detail" name="detail" placeholder="Jelaskan kondisi kerusakan sarana..."></textarea>
+            <textarea id="detail" name="pelapor" placeholder="Jelaskan kondisi kerusakan sarana..."></textarea>
           </div>
         </div>
 
@@ -499,7 +499,7 @@ select:focus {
               <div class="upload-text">Seret file Anda di sini, atau Telusuri</div>
               <div class="upload-hint">Format yang didukung: pdf, Max file size 100MB</div>
             </div>
-            <input type="file" id="fileInput" name="file" accept=".pdf">
+            <input type="file" id="fileInput" name="foto">
           </div>
         </div>
 
@@ -563,7 +563,7 @@ function handleFiles(files) {
     const file = files[0];
     
     // Validate file type
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
+    if (!file.name.toLowerCase().endsWith('.jpg') && !file.name.toLowerCase().endsWith('.jpeg') && !file.name.toLowerCase().endsWith('.png') && !file.name.toLowerCase().endsWith('.gif')) {
       alert('Hanya file PDF yang diperbolehkan!');
       return;
     }

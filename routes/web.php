@@ -12,6 +12,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/pengaduan', [App\Http\Controllers\PengaduanController::class, 'index'])->name('pengaduan.index');  
 Route::get('/pengaduan/create', [App\Http\Controllers\PengaduanController::class, 'create'])->name('pengaduan.create');  
+Route::post('/pengaduan', [App\Http\Controllers\PengaduanController::class, 'store'])->name('pengaduan.store');
 
 Route::get('/tanggapan', function () {
     return view('tanggapan.tanggapan');
